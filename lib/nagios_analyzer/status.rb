@@ -55,5 +55,9 @@ module NagiosAnalyzer
         memo && condition.call(section)
       end
     end
+
+    def reset_cache!
+      @items = @service_items = @host_items = nil
+    end
   end
 end

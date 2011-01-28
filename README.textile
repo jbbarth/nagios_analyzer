@@ -43,8 +43,8 @@ status = NagiosAnalyzer::Status.new("/path/to/status.dat", :scope => not_acknowl
 
 # add more scopes
 status.scopes << lambda{|s| s.include?("notifications_enabled=1") } #no notifications
-status.scopes << lambda{|s| s.starts_with("hoststatus") } #only host statuses
+status.scopes << lambda{|s| s.start_with?("hoststatus") } #only host statuses
 
 # reset cached results (if you changed scopes!)
-status.reset_cache
+status.reset_cache!
 </pre>

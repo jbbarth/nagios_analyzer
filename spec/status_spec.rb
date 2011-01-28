@@ -53,6 +53,16 @@ describe NagiosAnalyzer::Status do
       @status.should have(2).service_items # ... + 2 service_items
       @status.service_items.first[:type].should == "servicestatus"
     end
+
+    it "resets cached attributes" do
+      @status.should have(4).items
+      @status.scopes << lambda{|s| s.start_with?("servicestatus")}
+      @status.should have(4).items
+      @status.reset_cache!
+      @status.should have(2).items
+      @status.should have(0).host_items
+      @status.should have(2).service_items
+    end
   end
 
   context "without :include_ok option" do
