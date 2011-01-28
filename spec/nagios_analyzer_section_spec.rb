@@ -24,4 +24,13 @@ describe NagiosAnalyzer::Section do
     @section[:max_attempts].should be_a(Integer)
     @section[:max_attempts].should == 3
   end
+
+  it "provides a :status key to know the status" do
+    @section[:status].should == "WARNING"
+    Section.new("servicestatus {\ncurrent_state=0\n}")[:status].should == "OK"
+    Section.new("servicestatus {\ncurrent_state=2\n}")[:status].should == "CRITICAL"
+    Section.new("servicestatus {\ncurrent_state=3\n}")[:status].should == "UNKNOWN"
+    Section.new("hoststatus {\ncurrent_state=0\n}")[:status].should == "OK"
+    Section.new("hoststatus {\ncurrent_state=42\n}")[:status].should == "CRITICAL"
+  end
 end

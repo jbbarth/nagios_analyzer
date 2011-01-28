@@ -10,6 +10,11 @@ module NagiosAnalyzer
           self[$1.to_sym] = ($2 == "#{$2.to_i}" ? $2.to_i : $2)
         end
       end
+      if self[:type] == "servicestatus"
+        self[:status] = NagiosAnalyzer::Status::STATES[self[:current_state]]
+      else
+        self[:status] = (self[:current_state] == NagiosAnalyzer::Status::STATE_OK ? "OK" : "CRITICAL")
+      end
     end
   end
 end
