@@ -1,5 +1,7 @@
 module NagiosAnalyzer
   class Status
+    attr_accessor :last_updated
+
     STATE_OK = 0
     STATES = {
       0 => "OK",
@@ -19,6 +21,7 @@ module NagiosAnalyzer
     def initialize(statusfile, options = {})
       @file = statusfile
       sections #loads section at this point so we raise immediatly if file has a item
+      @last_updated = Time.at(File.mtime(statusfile))
     end
   
     def sections
