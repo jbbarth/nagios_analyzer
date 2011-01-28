@@ -41,16 +41,17 @@ describe NagiosAnalyzer::Status do
     it "returns all items" do
       @status.should have(6).sections
       @status.should have(4).items         #don't return info{} and programstatus{} sections
+      @status.items.first.should be_a(NagiosAnalyzer::Section)
     end
 
     it "returns host items" do
       @status.should have(2).host_items    #4 = 2 host_items
-      @status.host_items.first.should include("hoststatus")
+      @status.host_items.first[:type].should == "hoststatus"
     end
 
     it "returns service items" do
       @status.should have(2).service_items # ... + 2 service_items
-      @status.service_items.first.should include("servicestatus")
+      @status.service_items.first[:type].should == "servicestatus"
     end
   end
 

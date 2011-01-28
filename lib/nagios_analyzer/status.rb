@@ -36,13 +36,13 @@ module NagiosAnalyzer
 
     def host_items
       @host_items ||= sections.map do |s|
-        s if s.start_with?("hoststatus") && in_scope?(s)
+        Section.new(s) if s.start_with?("hoststatus") && in_scope?(s)
       end.compact
     end
 
     def service_items
       @service_items ||= sections.map do |s|
-        s if s.start_with?("servicestatus") && in_scope?(s)
+        Section.new(s) if s.start_with?("servicestatus") && in_scope?(s)
       end.compact
     end
 
