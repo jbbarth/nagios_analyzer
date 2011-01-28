@@ -25,6 +25,7 @@ module NagiosAnalyzer
       #scope is an array of lambda procs : it evaluates to true if service has to be displayed
       @scopes = []
       @scopes << lambda { |section| !section.include?("current_state=#{STATE_OK}") } unless options[:include_ok]
+      @scopes << options[:scope] if options[:scope].is_a?(Proc)
     end
   
     def sections

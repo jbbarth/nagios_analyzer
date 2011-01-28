@@ -28,6 +28,13 @@ describe NagiosAnalyzer::Status do
       @status.in_scope?(@status.sections[2]).should be_true
       @status.in_scope?(@status.sections[3]).should be_false
     end
+    
+    it "defines scope in the initialization" do
+      @status = NagiosAnalyzer::Status.new(@file, :include_ok => true,
+                                           :scope => lambda{|s|s.include?("host_name=server-web")})
+      @status.in_scope?(@status.sections[2]).should be_true
+      @status.in_scope?(@status.sections[3]).should be_false
+    end
   end
 
   context "#items, #service_items, #host_items" do
