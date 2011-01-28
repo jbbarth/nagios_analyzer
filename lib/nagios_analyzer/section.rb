@@ -16,5 +16,16 @@ module NagiosAnalyzer
         self[:status] = (self[:current_state] == NagiosAnalyzer::Status::STATE_OK ? "OK" : "CRITICAL")
       end
     end
+
+    def <=>(other)
+      self.sort_array <=> other.sort_array
+    end
+
+    def sort_array
+      [ (self[:type] == "servicestatus" ? 1 : 0),
+        Status::STATES_ORDER[self[:current_state]].to_i,
+        self[:host_name],
+        self[:service_description].to_s ]
+    end
   end
 end
