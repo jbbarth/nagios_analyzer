@@ -1,0 +1,50 @@
+h1. nagios_analyzer
+
+h2. Description
+
+nagios_analyzer gem allows you to parse a status.dat file produced by nagios or shinken.
+  
+It's similar to nagios_parser in some way, but has different goals:
+* the parser doesn't rely on 3rd party library nor standard parser like 'racc', I want to keep the code very simple to read and maintain ;
+* the parser supports defining scopes, which are processed on the raw file for performance concern, ruby objects being instanciated lately when necessary : on my conf (85hosts/700services), spawning a ruby object for each section makes the script at least 10 times slower (0.25s => >3s). Most of the time, you'll only want to access a subset of your services or hosts, so it's ok.
+  
+Since nagios_parser looks very cool too, you should try both and keep the best one for you.
+
+h2. Installation
+
+<pre>gem install nagios_analyzer</pre>
+
+h2. Usage
+
+<pre>
+require 'nagios_analyzer'
+require 'pp'
+
+status = NagiosAnalyzer::Status.new("/path/to/status.dat")
+
+# get services items
+pp status.service_items
+
+# get host items
+pp status.host_items
+
+# all items ?
+pp status.items
+
+# in fact, each items is a hash
+pp status.items.first
+
+# get all sections, even those where status is OK
+status = NagiosAnalyzer::Status.new("/path/to/status.dat", :include_ok => true)
+
+# define a personal scope (applied to section string, so look at your status.dat!)
+not_acknowleged = lambda{|section| section.include?("problem_has_been_acknowledged=0") }
+status = NagiosAnalyzer::Status.new("/path/to/status.dat", :scope => not_acknowledged)
+
+# add more scopes
+status.scopes << lambda{|s| s.include?("notifications_enabled=1") } #no notifications
+status.scopes << lambda{|s| s.starts_with("hoststatus") } #only host statuses
+
+# reset cached results (if you changed scopes!)
+status.reset_cache
+</pre>
