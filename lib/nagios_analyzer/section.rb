@@ -11,9 +11,9 @@ module NagiosAnalyzer
         end
       end
       if self[:type] == "servicestatus"
-        self[:status] = NagiosAnalyzer::Status::STATES[self[:current_state]]
+        self[:status] = Status::STATES[self[:current_state]]
       else
-        self[:status] = (self[:current_state] == NagiosAnalyzer::Status::STATE_OK ? "OK" : "CRITICAL")
+        self[:status] = (self[:current_state] == Status::STATE_OK ? "OK" : "CRITICAL")
       end
     end
 
