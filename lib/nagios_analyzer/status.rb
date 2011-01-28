@@ -24,6 +24,7 @@ module NagiosAnalyzer
       @last_updated = Time.at(File.mtime(statusfile))
       #scope is an array of lambda procs : it evaluates to true if service has to be displayed
       @scopes = []
+      @scopes << lambda { |section| !section.include?("current_state=#{STATE_OK}") } unless options[:include_ok]
     end
   
     def sections

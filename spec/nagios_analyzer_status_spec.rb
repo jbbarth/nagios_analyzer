@@ -3,7 +3,7 @@ require File.expand_path('../spec_helper',__FILE__)
 describe NagiosAnalyzer::Status do
   before(:each) do
     @file = File.expand_path('../data/status.dat',__FILE__)
-    @status = NagiosAnalyzer::Status.new(@file)
+    @status = NagiosAnalyzer::Status.new(@file, :include_ok => true)
   end
 
   it "creates a NagiosAnalyzer::Status object" do
@@ -44,6 +44,16 @@ describe NagiosAnalyzer::Status do
     it "returns service items" do
       @status.should have(2).service_items # ... + 2 service_items
       @status.service_items.first.should include("servicestatus")
+    end
+  end
+
+  context "without :include_ok option" do
+    it "should filter items" do
+      @status = NagiosAnalyzer::Status.new(@file)
+      @status.should have(1).items         #don't return info{} and programstatus{} sections
+      @status.should have(0).host_items    #4 = 2 host_items
+      @status.should have(1).service_items # ... + 2 service_items
+      @status.service_items.first.should_not include("current_state=0")
     end
   end
 end
