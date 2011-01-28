@@ -32,6 +32,22 @@ module NagiosAnalyzer
       @sections ||= File.read(@file).split("\n\n")
     end
 
+    def host_items
+      @host_items ||= sections.map do |s|
+        s if s.start_with?("hoststatus") && in_scope?(s)
+      end.compact
+    end
+
+    def service_items
+      @service_items ||= sections.map do |s|
+        s if s.start_with?("servicestatus") && in_scope?(s)
+      end.compact
+    end
+
+    def items
+      @items ||= host_items + service_items
+    end
+
     def in_scope?(section)
       @scopes.inject(true) do |memo,condition|
         memo && condition.call(section)
