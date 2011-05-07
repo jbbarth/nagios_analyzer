@@ -31,8 +31,13 @@ pp status.host_items
 # all items ?
 pp status.items
 
-# in fact, each items is a hash
-pp status.items.first
+# only problems, services or hosts
+pp status.service_problems
+pp status.host_problems
+
+# in fact, each item contains the section
+# and can be accessed as a Hash
+pp status.items.first[:current_state]
 
 # get all sections, even those where status is OK
 status = NagiosAnalyzer::Status.new("/path/to/status.dat", :include_ok => true)
