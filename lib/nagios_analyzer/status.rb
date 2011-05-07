@@ -50,10 +50,26 @@ module NagiosAnalyzer
       @items ||= (host_items + service_items).sort
     end
 
+    def host_problems
+      @host_problems ||= sections.map do |s|
+        Section.new(s) if s.start_with?("hoststatus") && in_scope?(s) && problem?(s)
+      end.compact.sort
+    end
+
+    def service_problems
+      @service_problems ||= sections.map do |s|
+        Section.new(s) if s.start_with?("servicestatus") && in_scope?(s) && problem?(s)
+      end.compact.sort
+    end
+
     def in_scope?(section)
       @scopes.inject(true) do |memo,condition|
         memo && condition.call(section)
       end
+    end
+
+    def problem?(section)
+      section.match(/current_state=(\d+)/) && $1.to_i != STATE_OK
     end
 
     def reset_cache!

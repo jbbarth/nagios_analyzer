@@ -54,6 +54,15 @@ describe NagiosAnalyzer::Status do
       @status.service_items.first[:type].should == "servicestatus"
     end
 
+    it "returns only service problems, keeping scopes on every items" do
+      @status.should have(1).service_problems
+      @status.should have(2).service_items
+    end
+
+    it "returns host problems, currently none" do
+      @status.should have(0).host_problems
+    end
+
     it "resets cached attributes" do
       @status.should have(4).items
       @status.scopes << lambda{|s| s.start_with?("servicestatus")}
