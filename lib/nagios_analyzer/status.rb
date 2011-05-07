@@ -37,29 +37,29 @@ module NagiosAnalyzer
     def host_items
       @host_items ||= sections.map do |s|
         Section.new(s) if s.start_with?("hoststatus") && in_scope?(s)
-      end.compact.sort
+      end.compact
     end
 
     def service_items
       @service_items ||= sections.map do |s|
         Section.new(s) if s.start_with?("servicestatus") && in_scope?(s)
-      end.compact.sort
+      end.compact
     end
 
     def items
-      @items ||= (host_items + service_items).sort
+      @items ||= (host_items + service_items)
     end
 
     def host_problems
       @host_problems ||= sections.map do |s|
         Section.new(s) if s.start_with?("hoststatus") && in_scope?(s) && problem?(s)
-      end.compact.sort
+      end.compact
     end
 
     def service_problems
       @service_problems ||= sections.map do |s|
         Section.new(s) if s.start_with?("servicestatus") && in_scope?(s) && problem?(s)
-      end.compact.sort
+      end.compact
     end
 
     def in_scope?(section)
