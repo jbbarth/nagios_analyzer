@@ -11,7 +11,6 @@ describe NagiosAnalyzer::Section do
 
   it "returns a hash with keys only" do
     @section.should be_a(Section)
-    @section.should be_a(Hash)
     @section.keys.map(&:class).uniq.should == [Symbol]
   end
 
