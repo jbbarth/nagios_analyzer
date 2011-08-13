@@ -1,5 +1,7 @@
 h1. nagios_analyzer
 
+"!https://secure.travis-ci.org/jbbarth/nagios_analyzer.png!":http://travis-ci.org/jbbarth/nagios_analyzer
+
 h2. Description
 
 nagios_analyzer gem allows you to parse a status.dat file produced by nagios or shinken.
