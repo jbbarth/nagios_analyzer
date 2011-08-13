@@ -34,7 +34,7 @@ module NagiosAnalyzer
     def sort_array
       [ (self[:type] == "servicestatus" ? 1 : 0),
         Status::STATES_ORDER[self[:current_state]].to_i,
-        self[:host_name],
+        self[:host_name].to_s,
         self[:service_description].to_s ]
     end
   end
