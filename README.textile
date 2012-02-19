@@ -45,7 +45,7 @@ pp status.items.first[:current_state]
 status = NagiosAnalyzer::Status.new("/path/to/status.dat", :include_ok => true)
 
 # define a personal scope (applied to section string, so look at your status.dat!)
-not_acknowleged = lambda{|section| section.include?("problem_has_been_acknowledged=0") }
+not_acknowledged = lambda{|section| section.include?("problem_has_been_acknowledged=0") }
 status = NagiosAnalyzer::Status.new("/path/to/status.dat", :scope => not_acknowledged)
 
 # add more scopes
