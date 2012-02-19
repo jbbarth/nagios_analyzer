@@ -36,13 +36,13 @@ module NagiosAnalyzer
 
     def host_items
       @host_items ||= sections.map do |s|
-        Section.new(s) if s.start_with?("hoststatus") && in_scope?(s)
+        Section.new(s) if s =~ /^hoststatus/ && in_scope?(s)
       end.compact
     end
 
     def service_items
       @service_items ||= sections.map do |s|
-        Section.new(s) if s.start_with?("servicestatus") && in_scope?(s)
+        Section.new(s) if s =~ /^servicestatus/ && in_scope?(s)
       end.compact
     end
 
@@ -52,13 +52,13 @@ module NagiosAnalyzer
 
     def host_problems
       @host_problems ||= sections.map do |s|
-        Section.new(s) if s.start_with?("hoststatus") && in_scope?(s) && problem?(s)
+        Section.new(s) if s =~ /^hoststatus/ && in_scope?(s) && problem?(s)
       end.compact
     end
 
     def service_problems
       @service_problems ||= sections.map do |s|
-        Section.new(s) if s.start_with?("servicestatus") && in_scope?(s) && problem?(s)
+        Section.new(s) if s =~ /^servicestatus/ && in_scope?(s) && problem?(s)
       end.compact
     end
 
