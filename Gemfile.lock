@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    nagios_analyzer (0.0.2)
+    nagios_analyzer (0.0.3)
 
 GEM
   remote: http://rubygems.org/
