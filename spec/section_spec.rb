@@ -34,6 +34,19 @@ describe NA::Section do
     NA::Section.new("hoststatus {\ncurrent_state=42\n}")[:status].should == "CRITICAL"
   end
 
+  context "direct access" do
+    it "allows direct access to properties" do
+      section = NA::Section.new("servicestatus {\ncurrent_state=2\n}")
+      section.current_state.should == 2
+      section.something_else.should be_nil
+    end
+
+    it "properly bubbles a NoMethodError when using inexistant methods" do
+      section = NA::Section.new("servicestatus {\ncurrent_state=2\n}")
+      lambda { section.weird_inexistent_method(1) }.should raise_error NoMethodError
+    end
+  end
+
   context "#sort" do
     it "places servicestatus'es after hoststatus'es" do
       a = NA::Section.new("servicestatus {\ncurrent_state=0\n}")

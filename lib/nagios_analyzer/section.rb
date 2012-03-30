@@ -5,7 +5,12 @@ module NagiosAnalyzer
     end
 
     def method_missing(method, *args)
-      hash.send(method, *args)
+      begin
+        hash.send(method, *args)
+      rescue NoMethodError => e
+        raise e if args.size > 0
+        hash[method]
+      end
     end
 
     def hash
