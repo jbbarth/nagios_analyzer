@@ -18,7 +18,7 @@ module NagiosAnalyzer
       @hash = {}
       @section.each_line do |line|
         line.strip!
-        if line.match(/(\S+) \{/)
+        if line.match(/^\s*([a-zA-Z0-9]*)\s*\{/)
           @hash[:type] = $1
         elsif line.match(/(\S+)=(.*)/) #more efficient than include?+split+join..
           @hash[$1.to_sym] = ($2 == "#{$2.to_i}" ? $2.to_i : $2)

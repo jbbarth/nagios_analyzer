@@ -34,6 +34,13 @@ describe NA::Section do
     NA::Section.new("hoststatus {\ncurrent_state=42\n}")[:status].should == "CRITICAL"
   end
 
+  it "properly parses sections with free text" do
+    section = NA::Section.new("somethinghere {\n\tcomment_data=Free Text here. Possibly even with characters like } or = or even {.\n\nhello_prop=789321\n}")
+    section.type.should == "somethinghere"
+    section.comment_data.should == "Free Text here. Possibly even with characters like } or = or even {."
+    section.hello_prop.should == 789321
+  end
+
   context "direct access" do
     it "allows direct access to properties" do
       section = NA::Section.new("servicestatus {\ncurrent_state=2\n}")
