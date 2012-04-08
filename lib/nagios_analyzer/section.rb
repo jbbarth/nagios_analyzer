@@ -21,7 +21,13 @@ module NagiosAnalyzer
         if line.match(/^\s*([a-zA-Z0-9]*)\s*\{/)
           @hash[:type] = $1
         elsif line.match(/(\S+)=(.*)/) #more efficient than include?+split+join..
-          @hash[$1.to_sym] = ($2 == "#{$2.to_i}" ? $2.to_i : $2)
+          property, value = ["#{$1}", "#{$2}"]
+          @hash[property.to_sym] =
+            case
+            when value.strip =~ /^[0-9]+$/ then value.to_i
+            when value.strip =~ /^[0-9.]+$/ then value.to_f
+            else value
+            end
         end
       end
       if @hash[:type] == "servicestatus"

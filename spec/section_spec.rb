@@ -41,6 +41,12 @@ describe NA::Section do
     section.hello_prop.should == 789321
   end
 
+  it "properly parses sections with decimal values" do
+    section = NA::Section.new("somethinghere {\n\nnumerical_value=3.141529\n}")
+    section.type.should == "somethinghere"
+    section.numerical_value.should == 3.141529
+  end
+
   context "direct access" do
     it "allows direct access to properties" do
       section = NA::Section.new("servicestatus {\ncurrent_state=2\n}")
