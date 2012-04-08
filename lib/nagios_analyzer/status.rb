@@ -31,7 +31,7 @@ module NagiosAnalyzer
     def sections
       # don't try to instanciate each section ! on my conf (85hosts/700services),
       # it makes the script more 10 times slower (0.25s => >3s)
-      @sections ||= File.read(@file).split("\n\n")
+      @sections ||= File.read(@file).split(/\}\s*\n/).map(&:strip)
     end
 
     def host_items

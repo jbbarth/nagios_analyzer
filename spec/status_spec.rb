@@ -114,4 +114,39 @@ describe NagiosAnalyzer::Status do
       status.servicestatus_items.first.id_for_testing.should == 9
     end
   end
+
+  context "parsing sections" do
+    it "parses sections when they are appart" do
+      status = status_for_data <<-DAT
+        hoststatus {
+          host_name=abc
+          }
+
+
+        hoststatus {
+          host_name=abc
+          }
+      DAT
+      status.hoststatus_items.size.should == 2
+    end
+
+    it "parses when sections are close by" do
+      status = status_for_data <<-DAT
+        hoststatus {
+          host_name=abc
+          }
+        hoststatus {
+          host_name=abc
+          }
+      DAT
+      status.hoststatus_items.size.should == 2
+    end
+
+    def status_for_data(data)
+      filename = "fixture.dat"
+      File.stub!(:mtime).with(filename).and_return(Time.now)
+      File.stub!(:read).with(filename).and_return(data)
+      NagiosAnalyzer::Status.new(filename, :include_ok => true)
+    end
+  end
 end
