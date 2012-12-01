@@ -55,3 +55,7 @@ status.scopes << lambda{|s| s.start_with?("hoststatus") } #only host statuses
 # reset cached results (if you changed scopes!)
 status.reset_cache!
 </pre>
+
+h2. License
+
+This gem is distributed under the MIT license, see LICENSE file for more details.
