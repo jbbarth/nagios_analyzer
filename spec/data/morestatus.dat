@@ -1,0 +1,35 @@
+contactstatus {
+  id_for_testing=1
+  }
+
+hostcomment {
+  id_for_testing=2
+  }
+
+hostdowntime {
+  id_for_testing=3
+  }
+
+hoststatus {
+  id_for_testing=4
+  }
+
+info {
+  id_for_testing=5
+  }
+
+programstatus {
+  id_for_testing=6
+  }
+
+servicecomment {
+  id_for_testing=7
+  }
+
+servicedowntime {
+  id_for_testing=8
+  }
+
+servicestatus {
+  id_for_testing=9
+  }
