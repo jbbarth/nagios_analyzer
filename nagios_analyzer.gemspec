@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/jbbarth/nagios_analyzer"
   s.summary     = %q{Parses a nagios/shinken status.dat file}
   s.description = %q{Helps you parse a status.dat file produced by nagios or shinken. It aims at being performant for big status.dat files. Take a look at nagios_parser too if you want, looks very cool too !}
+  s.license     = "MIT"
 
   s.rubyforge_project = "nagios_analyzer"
 
