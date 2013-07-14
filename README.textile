@@ -41,6 +41,9 @@ pp status.host_problems
 # and can be accessed as a Hash
 pp status.items.first[:current_state]
 
+# or directly
+pp status.items.first.current_state
+
 # get all sections, even those where status is OK
 status = NagiosAnalyzer::Status.new("/path/to/status.dat", :include_ok => true)
 

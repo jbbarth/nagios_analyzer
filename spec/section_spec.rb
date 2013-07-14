@@ -34,6 +34,32 @@ describe NA::Section do
     NA::Section.new("hoststatus {\ncurrent_state=42\n}")[:status].should == "CRITICAL"
   end
 
+  it "properly parses sections with free text" do
+    section = NA::Section.new("somethinghere {\n\tcomment_data=Free Text here. Possibly even with characters like } or = or even {.\n\nhello_prop=789321\n}")
+    section.type.should == "somethinghere"
+    section.comment_data.should == "Free Text here. Possibly even with characters like } or = or even {."
+    section.hello_prop.should == 789321
+  end
+
+  it "properly parses sections with decimal values" do
+    section = NA::Section.new("somethinghere {\n\nnumerical_value=3.141529\n}")
+    section.type.should == "somethinghere"
+    section.numerical_value.should == 3.141529
+  end
+
+  context "direct access" do
+    it "allows direct access to properties" do
+      section = NA::Section.new("servicestatus {\ncurrent_state=2\n}")
+      section.current_state.should == 2
+      section.something_else.should be_nil
+    end
+
+    it "properly bubbles a NoMethodError when using inexistant methods" do
+      section = NA::Section.new("servicestatus {\ncurrent_state=2\n}")
+      lambda { section.weird_inexistent_method(1) }.should raise_error NoMethodError
+    end
+  end
+
   context "#sort" do
     it "places servicestatus'es after hoststatus'es" do
       a = NA::Section.new("servicestatus {\ncurrent_state=0\n}")
