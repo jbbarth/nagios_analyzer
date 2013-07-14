@@ -144,8 +144,8 @@ describe NagiosAnalyzer::Status do
 
     def status_for_data(data)
       filename = "fixture.dat"
-      File.stub!(:mtime).with(filename).and_return(Time.now)
-      File.stub!(:read).with(filename).and_return(data)
+      File.stub(:mtime).with(filename).and_return(Time.now)
+      File.stub(:read).with(filename).and_return(data)
       NagiosAnalyzer::Status.new(filename, :include_ok => true)
     end
   end
