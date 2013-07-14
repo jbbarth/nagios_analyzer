@@ -13,6 +13,15 @@ module NagiosAnalyzer
       end
     end
 
+    #explicitly define NagiosAnalyzer::Section#type method in ruby 1.8
+    #because it returns the class in this version, hence not triggers
+    #method_missing to return our internal type.
+    if RUBY_VERSION == "1.8.7"
+      def type
+        hash[:type]
+      end
+    end
+
     def hash
       return @hash if @hash
       @hash = {}
