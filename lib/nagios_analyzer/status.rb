@@ -132,7 +132,7 @@ module NagiosAnalyzer
     end
     
     def regexp_for_section(name)
-      Regexp.new("^\\s*#{name}\\s*{")
+      Regexp.new("^\\s*#{name}\\s*\\{")
     end
     
     def section_var_sym(name, filter_problems)
