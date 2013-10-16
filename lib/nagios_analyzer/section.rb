@@ -22,7 +22,7 @@ module NagiosAnalyzer
       end
     end
 
-    def hash
+    def to_hash
       return @hash if @hash
       @hash = {}
       @section.each_line do |line|
