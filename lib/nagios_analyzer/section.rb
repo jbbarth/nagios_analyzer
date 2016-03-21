@@ -23,7 +23,9 @@ module NagiosAnalyzer
     end
 
     def hash
-      return @hash if @hash
+      if defined? @hash
+        return @hash
+      end
       @hash = {}
       @section.each_line do |line|
         line.strip!
